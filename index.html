@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual Operacional | The Catalyst Project V15</title>
+    <title>Manual Operacional | The Catalyst Project V16</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,27 +41,7 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        /* CARD ANIMADO */
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            position: relative;
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border-color: rgba(0, 232, 0, 0.3);
-        }
-
-        /* TYPOGRAPHY */
-        .text-highlight { color: var(--accent-color); text-shadow: 0 0 10px rgba(0, 232, 0, 0.3); }
-        
-        /* ABAS */
+        /* TAB NAVIGATION */
         .tab-btn {
             border-bottom: 2px solid transparent;
             transition: all 0.3s;
@@ -69,71 +49,123 @@
             cursor: pointer;
             padding-bottom: 1rem;
             white-space: nowrap;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
-        .tab-btn:hover { color: white; }
+        .tab-btn:hover { color: white; background: rgba(255,255,255,0.02); }
         .tab-btn.active {
             color: var(--accent-color);
             border-bottom-color: var(--accent-color);
-            font-weight: 700;
         }
-        .tab-content { display: none; animation: fadeIn 0.5s ease-out; }
+        .tab-content { display: none; animation: fadeIn 0.6s ease-out; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* LISTAS DETALHADAS (CRONOGRAMA) */
-        .dept-title {
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
+        /* TIMELINE ESTRUTURAL */
+        .timeline-phase {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 3rem;
+            border-left: 2px solid rgba(255,255,255,0.1);
+        }
+        
+        .timeline-phase::before {
+            content: attr(data-step);
+            position: absolute;
+            left: -1rem;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--card-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        .phase-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        
+
+        .phase-date {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-family: monospace;
+            background: rgba(0, 232, 0, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        /* DEPT CARDS WITHIN TIMELINE */
+        .dept-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: all 0.2s;
+        }
+        .dept-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .dept-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        /* TASK LISTS */
+        .task-list { list-style: none; padding: 0; margin: 0; }
         .task-list li {
             position: relative;
             padding-left: 1rem;
             margin-bottom: 0.5rem;
             font-size: 0.85rem;
-            color: #d1d5db;
+            color: #ccc;
             line-height: 1.4;
         }
-        
         .task-list li::before {
-            content: '';
+            content: '›';
             position: absolute;
             left: 0;
-            top: 6px;
-            width: 4px;
-            height: 4px;
-            background-color: var(--accent-color);
-            border-radius: 50%;
+            color: var(--accent-color);
+            font-weight: bold;
         }
+        .highlight-task { color: white; font-weight: 600; }
 
-        .phase-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .phase-number {
-            font-size: 2rem;
-            font-weight: 900;
-            color: rgba(255,255,255,0.05);
-            line-height: 1;
-        }
+        /* DEPT COLORS */
+        .dept-dir { color: #a78bfa; } /* Roxo */
+        .dept-prod { color: #60a5fa; } /* Azul */
+        .dept-mkt { color: #f472b6; } /* Rosa */
+        .dept-com { color: #4ade80; } /* Verde */
 
-        /* CHECKLIST & TABLE */
-        .checklist-table th { color: var(--accent-color); text-align: left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; text-transform: uppercase; }
-        .checklist-table td { padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ccc; font-size: 0.85rem; }
-        .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; text-transform: uppercase; border: 1px solid; }
-        .status-done { color: #00e800; border-color: #00e800; background: rgba(0,232,0,0.1); }
-        .status-wait { color: orange; border-color: orange; background: rgba(255,165,0,0.1); }
+        /* RUN OF SHOW TABLE */
+        .ros-table { width: 100%; border-collapse: collapse; }
+        .ros-table th { text-align: left; padding: 1rem; color: var(--accent-color); border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; text-transform: uppercase; }
+        .ros-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ccc; font-size: 0.9rem; }
+        .ros-time { font-family: monospace; color: var(--accent-color); font-weight: bold; }
 
     </style>
 </head>
@@ -146,7 +178,10 @@
                 <div class="h-6 w-px bg-gray-600"></div>
                 <div>
                     <h1 class="text-sm font-bold text-white tracking-widest uppercase">The Catalyst Project</h1>
-                    <span class="text-[10px] text-highlight font-mono">V15 | CRONOGRAMA DETALHADO</span>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-[10px] text-highlight font-mono">V16 | MASTER PLAN</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -154,164 +189,243 @@
 
     <main class="flex-grow container mx-auto px-6 pt-32 pb-16">
         
-        <div class="mb-10 overflow-x-auto pb-2 scrollbar-hide">
-            <nav class="flex space-x-8 border-b border-gray-800 min-w-max">
-                <button onclick="openTab('cronograma')" class="tab-btn active text-sm font-bold uppercase">Cronograma Detalhado</button>
-                <button onclick="openTab('staff')" class="tab-btn text-sm font-bold uppercase">Staff & Ops</button>
-                <button onclick="openTab('checklist')" class="tab-btn text-sm font-bold uppercase">Checklist</button>
-                <button onclick="openTab('visao')" class="tab-btn text-sm font-bold uppercase">Visão Geral</button>
+        <div class="mb-12 border-b border-gray-800">
+            <nav class="flex gap-8 overflow-x-auto pb-1">
+                <button onclick="openTab('crono')" class="tab-btn active">Cronograma Mestre</button>
+                <button onclick="openTab('minute')" class="tab-btn">Minuto-a-Minuto (Dia D)</button>
+                <button onclick="openTab('staff')" class="tab-btn">Staff & Funções</button>
             </nav>
         </div>
 
-        <div id="cronograma" class="tab-content active">
+        <div id="crono" class="tab-content active">
             
-            <div class="card mb-8">
-                <div class="phase-header">
-                    <div class="phase-number">01</div>
-                    <div>
-                        <h2 class="text-xl font-bold text-white">Fase de Fundação (Janeiro - Fevereiro)</h2>
-                        <p class="text-xs text-gray-400">Foco: Contratos, Estruturação e Início das Vendas.</p>
-                    </div>
-                </div>
+            <div class="timeline-phase" data-step="01">
+                <h2 class="phase-title">Fundação & Planejamento</h2>
+                <span class="phase-date">JANEIRO - FEVEREIRO</span>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-black/20 p-4 rounded border border-gray-700">
-                        <div class="dept-title text-purple-400"><i class="ph ph-compass"></i> Direção</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <div class="dept-card border-t-2 border-purple-500">
+                        <div class="dept-header dept-dir"><i class="ph ph-compass"></i> Direção</div>
                         <ul class="task-list">
-                            <li><strong>10/Jan:</strong> Assinatura Contrato e Dotação (Budget 300k).</li>
-                            <li>Definição do Roteiro Central (3Ms) com Luiz Portal.</li>
-                            <li>Briefing inicial do Livro "Catalisador".</li>
+                            <li class="highlight-task">Assinatura Contrato (10/Jan).</li>
+                            <li>Aprovação Budget R$ 300k.</li>
+                            <li>Definição Macro-Tema (Reagente vs Catalisador).</li>
+                            <li>Briefing do Livro com Leandro (Kelps).</li>
                         </ul>
                     </div>
-                    <div class="bg-black/20 p-4 rounded border border-gray-700">
-                        <div class="dept-title text-blue-400"><i class="ph ph-gear"></i> Produção</div>
+                    <div class="dept-card border-t-2 border-blue-500">
+                        <div class="dept-header dept-prod"><i class="ph ph-gear"></i> Produção</div>
                         <ul class="task-list">
-                            <li>Contratação Staff Experience (Validação).</li>
-                            <li><strong>Jogada Ensaiada:</strong> Cotar Metropolitan (140 pax) e manter K-Hotel no radar.</li>
-                            <li>Início das filmagens do Reality (TecnoIT).</li>
+                            <li>Contratação Staff "Experience".</li>
+                            <li class="highlight-task">Jogada Ensaiada: Cotar Metropolitan (140 pax) + K-Hotel.</li>
+                            <li>Início Filmagens Reality (TecnoIT).</li>
                         </ul>
                     </div>
-                    <div class="bg-black/20 p-4 rounded border border-gray-700">
-                        <div class="dept-title text-pink-400"><i class="ph ph-megaphone"></i> Marketing</div>
+                    <div class="dept-card border-t-2 border-pink-500">
+                        <div class="dept-header dept-mkt"><i class="ph ph-megaphone"></i> Marketing</div>
                         <ul class="task-list">
-                            <li>Contratação ID Visual (Fábio/Sebrae).</li>
-                            <li>Contratação Assessoria (Karol - 5 meses).</li>
-                            <li>Setup de Tráfego Pago (Bruno Lesche).</li>
-                            <li>Criação dos Grupos de WhatsApp Temáticos.</li>
+                            <li>Contratação Fábio (ID Visual - Sebrae).</li>
+                            <li>Contratação Karol (Assessoria - 5 meses).</li>
+                            <li>Setup Tráfego (Bruno Lesche).</li>
                         </ul>
                     </div>
-                    <div class="bg-black/20 p-4 rounded border border-gray-700">
-                        <div class="dept-title text-green-400"><i class="ph ph-currency-dollar"></i> Comercial</div>
+                    <div class="dept-card border-t-2 border-green-500">
+                        <div class="dept-header dept-com"><i class="ph ph-currency-dollar"></i> Comercial</div>
                         <ul class="task-list">
-                            <li>Montagem do time (Daniel + 2).</li>
-                            <li>Início da venda Mentoria High Ticket (Pré-venda).</li>
-                            <li>Mapeamento de Sponsors (Cota Ouro).</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-8">
-                <div class="phase-header">
-                    <div class="phase-number">02</div>
-                    <div>
-                        <h2 class="text-xl font-bold text-white">Fase Operacional (Março - Abril)</h2>
-                        <p class="text-xs text-gray-400">Foco: Testes Técnicos, Logística e Infraestrutura.</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-black/20 p-4 rounded border border-gray-700">
-                        <div class="dept-title text-blue-400"><i class="ph ph-sliders"></i> Infraestrutura</div>
-                        <ul class="task-list">
-                            <li>Contratação Painel LED e Luz Neon (Identidade Visual).</li>
-                            <li>Contratação Link de Internet Dedicado.</li>
-                            <li><strong>Legal:</strong> Emissão de AVCB e contratação Ambulância.</li>
-                            <li>Impressão de Crachás Coloridos (Separar p/ Conectar).</li>
-                        </ul>
-                    </div>
-                    <div class="bg-black/20 p-4 rounded border border-gray-700">
-                        <div class="dept-title text-yellow-400"><i class="ph ph-martini"></i> A&B</div>
-                        <ul class="task-list">
-                            <li><strong>Teste Técnico:</strong> Welcome Drink Químico (Gelo Seco).</li>
-                            <li>Validação de cardápio Coffee Break.</li>
-                            <li>Contratação de garçons/barman (Staff).</li>
-                        </ul>
-                    </div>
-                    <div class="bg-black/20 p-4 rounded border border-gray-700">
-                        <div class="dept-title text-orange-400"><i class="ph ph-airplane"></i> Logística (Ana)</div>
-                        <ul class="task-list">
-                            <li>Emissão de passagens aéreas palestrantes.</li>
-                            <li>Reserva de hospedagem (Hotel Próximo).</li>
-                            <li>Agendamento de Transfers VIP.</li>
-                        </ul>
-                    </div>
-                    <div class="bg-black/20 p-4 rounded border border-gray-700">
-                        <div class="dept-title text-purple-400"><i class="ph ph-scroll"></i> Conteúdo</div>
-                        <ul class="task-list">
-                            <li>Briefing Final com Host (Otaviano?).</li>
-                            <li>Ensaio de Palco (Marcação de Luz/Som).</li>
-                            <li>Preparação dos materiais do Game (Cartas).</li>
+                            <li>Montagem Time (Daniel + 2).</li>
+                            <li>Início Pré-Venda Mentoria (High Ticket).</li>
+                            <li>Mapeamento de Patrocinadores (Cota Ouro).</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="card border-l-4 border-accent-color">
-                <div class="phase-header">
-                    <div class="phase-number text-highlight">03</div>
-                    <div>
-                        <h2 class="text-xl font-bold text-white">Execução (Maio - Minuto a Minuto)</h2>
-                        <p class="text-xs text-gray-400">Foco: Experiência Impecável e Conversão.</p>
+            <div class="timeline-phase" data-step="02">
+                <h2 class="phase-title">Tração & Operação</h2>
+                <span class="phase-date">MARÇO - ABRIL</span>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <div class="dept-card border-t-2 border-purple-500">
+                        <div class="dept-header dept-dir"><i class="ph ph-compass"></i> Direção</div>
+                        <ul class="task-list">
+                            <li>Validação do Roteiro (3Ms & Prólogo).</li>
+                            <li>Briefing Final com Host (Alinhamento de tom).</li>
+                            <li>Aprovação da grade de conteúdo final.</li>
+                        </ul>
+                    </div>
+                    <div class="dept-card border-t-2 border-blue-500">
+                        <div class="dept-header dept-prod"><i class="ph ph-sliders"></i> Infra & Logística</div>
+                        <ul class="task-list">
+                            <li>Contratação Painel LED, Som, Luz Neon.</li>
+                            <li><strong>Legal:</strong> AVCB e Ambulância.</li>
+                            <li>Logística (Ana): Passagens e Hotel Palestrantes.</li>
+                            <li>A&B: Teste técnico do Drink Químico (Gelo Seco).</li>
+                        </ul>
+                    </div>
+                    <div class="dept-card border-t-2 border-pink-500">
+                        <div class="dept-header dept-mkt"><i class="ph ph-users-three"></i> Comunicação</div>
+                        <ul class="task-list">
+                            <li>Abertura Grupos WhatsApp Temáticos.</li>
+                            <li>Lives de Aquecimento Semanais.</li>
+                            <li>Impressão Crachás Coloridos e Materiais.</li>
+                        </ul>
+                    </div>
+                    <div class="dept-card border-t-2 border-green-500">
+                        <div class="dept-header dept-com"><i class="ph ph-chart-line-up"></i> Vendas</div>
+                        <ul class="task-list">
+                            <li>Fechamento Cotas de Patrocínio.</li>
+                            <li>Setup IA para fechamento no Dia D.</li>
+                            <li>Treinamento "Infiltrados" (João, Ana, Cléber).</li>
+                        </ul>
                     </div>
                 </div>
+            </div>
 
+            <div class="timeline-phase" data-step="03">
+                <h2 class="phase-title">Semana do Evento (Load-in)</h2>
+                <span class="phase-date">SEMANA D</span>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <div class="dept-card border-t-2 border-blue-500">
+                        <div class="dept-header dept-prod"><i class="ph ph-truck"></i> Montagem (D-1)</div>
+                        <ul class="task-list">
+                            <li>14:00 - Chegada Montadora (Palco/LED).</li>
+                            <li>16:00 - Teste de Luz e Som (House Mix).</li>
+                            <li>18:00 - Passagem de Palco (Host + Palestrantes).</li>
+                            <li>20:00 - Lacração da Sala.</li>
+                        </ul>
+                    </div>
+                    <div class="dept-card border-t-2 border-yellow-500">
+                        <div class="dept-header text-yellow-500"><i class="ph ph-package"></i> Kits & Cred</div>
+                        <ul class="task-list">
+                            <li>Montagem dos Kits de Boas-vindas.</li>
+                            <li>Organização dos Crachás por Cor.</li>
+                            <li>Setup sistema de Check-in (Tablets/QR).</li>
+                        </ul>
+                    </div>
+                    <div class="dept-card border-t-2 border-purple-500">
+                        <div class="dept-header dept-dir"><i class="ph ph-star"></i> VIPs</div>
+                        <ul class="task-list">
+                            <li>Confirmação Transfers VIP.</li>
+                            <li>Revisão Camarim Ibrahim (Catering).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-phase" data-step="04">
+                <h2 class="phase-title">Pós-Evento & Consolidação</h2>
+                <span class="phase-date">D+1 a D+7</span>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="dept-card">
+                        <div class="dept-header dept-mkt">D+1: Retenção</div>
+                        <ul class="task-list">
+                            <li>Disparo E-mail Agradecimento + NPS.</li>
+                            <li>Postagem Fotos Oficiais (Social Proof).</li>
+                        </ul>
+                    </div>
+                    <div class="dept-card">
+                        <div class="dept-header dept-dir">D+3: VIP & Hot Seat</div>
+                        <ul class="task-list">
+                            <li>Realização Jantar VIP (Bônus Mentoria).</li>
+                            <li>Entrega dos primeiros materiais didáticos.</li>
+                        </ul>
+                    </div>
+                    <div class="dept-card">
+                        <div class="dept-header dept-com">D+5: ROI</div>
+                        <ul class="task-list">
+                            <li>Relatório final para Patrocinadores.</li>
+                            <li>Fechamento financeiro e acerto comissão.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="minute" class="tab-content">
+            <div class="bg-card-bg border border-border-color rounded-xl overflow-hidden">
+                <div class="p-6 border-b border-gray-800 bg-gray-900/50">
+                    <h2 class="text-xl font-bold text-white">Cronograma de Execução: Dia D</h2>
+                    <p class="text-sm text-gray-400">Timing rigoroso para manutenção da energia.</p>
+                </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
+                    <table class="ros-table">
                         <thead>
-                            <tr class="bg-black/40 text-left">
-                                <th class="p-3 text-highlight">Hora</th>
-                                <th class="p-3 text-white">Atividade</th>
-                                <th class="p-3 text-gray-400">Detalhe Operacional</th>
-                                <th class="p-3 text-gray-400">Responsável</th>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Atividade</th>
+                                <th>Operacional / Palco</th>
+                                <th>Resp.</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-800">
-                            <tr>
-                                <td class="p-3 font-mono text-highlight">07:00</td>
-                                <td class="p-3 text-white font-bold">Chegada Staff</td>
-                                <td class="p-3 text-gray-400">Café da manhã equipe e verificação final de AV.</td>
-                                <td class="p-3 text-gray-500">Produção</td>
+                        <tbody>
+                            <tr class="bg-blue-900/10">
+                                <td class="ros-time">07:00</td>
+                                <td>Chegada Staff</td>
+                                <td>Café equipe, Rádios, Teste final mic.</td>
+                                <td>Prod.</td>
+                            </tr>
+                            <tr class="bg-blue-900/10">
+                                <td class="ros-time">07:45</td>
+                                <td>Briefing Geral</td>
+                                <td>Último alinhamento. Todos nos postos.</td>
+                                <td>Diretor</td>
                             </tr>
                             <tr>
-                                <td class="p-3 font-mono text-highlight">07:45</td>
-                                <td class="p-3 text-white font-bold">Briefing Geral</td>
-                                <td class="p-3 text-gray-400">Alinhamento de energia e postos. Rádios ligados.</td>
-                                <td class="p-3 text-gray-500">Diretor</td>
+                                <td class="ros-time">08:00</td>
+                                <td class="font-bold text-white">Abertura Credenciamento</td>
+                                <td>Entrega crachás coloridos (Regra: Separar).</td>
+                                <td>Recepção</td>
                             </tr>
                             <tr>
-                                <td class="p-3 font-mono text-highlight">08:00</td>
-                                <td class="p-3 text-white font-bold">Portas Abertas</td>
-                                <td class="p-3 text-gray-400">Credenciamento + Entrega Crachás Coloridos.</td>
-                                <td class="p-3 text-gray-500">Recepção</td>
+                                <td class="ros-time">08:30</td>
+                                <td class="font-bold text-white">Welcome Experience</td>
+                                <td>Serviço Drink Químico (Fumaça) + Coffee.</td>
+                                <td>A&B</td>
                             </tr>
                             <tr>
-                                <td class="p-3 font-mono text-highlight">08:30</td>
-                                <td class="p-3 text-white font-bold">Welcome Drink</td>
-                                <td class="p-3 text-gray-400">Serviço do Drink Químico (Efeito Fumaça).</td>
-                                <td class="p-3 text-gray-500">A&B</td>
+                                <td class="ros-time">09:00</td>
+                                <td class="font-bold text-highlight">INÍCIO DO EVENTO</td>
+                                <td>Blackout. Vídeo Manifesto. Entrada Host.</td>
+                                <td>AV/Host</td>
                             </tr>
                             <tr>
-                                <td class="p-3 font-mono text-highlight">09:00</td>
-                                <td class="p-3 text-white font-bold">Showtime</td>
-                                <td class="p-3 text-gray-400">Abertura Host + Manifesto + Entrada Ibrahim.</td>
-                                <td class="p-3 text-gray-500">Palco</td>
+                                <td class="ros-time">09:15</td>
+                                <td>Prólogo: O Ápice</td>
+                                <td>Entrada Ibrahim (Música Alta/Energia).</td>
+                                <td>Ibrahim</td>
                             </tr>
                             <tr>
-                                <td class="p-3 font-mono text-highlight">16:00</td>
-                                <td class="p-3 text-white font-bold">O Pitch</td>
-                                <td class="p-3 text-gray-400">Oferta da Mentoria High Ticket. IA processando dores.</td>
-                                <td class="p-3 text-gray-500">Comercial</td>
+                                <td class="ros-time">10:30</td>
+                                <td>Networking Guiado</td>
+                                <td>Dinâmica das Cores (Host comanda).</td>
+                                <td>Luiz P.</td>
+                            </tr>
+                            <tr class="bg-yellow-900/10">
+                                <td class="ros-time">12:30</td>
+                                <td>Almoço</td>
+                                <td>Livre (Networking). Staff reveza.</td>
+                                <td>Todos</td>
+                            </tr>
+                            <tr>
+                                <td class="ros-time">14:00</td>
+                                <td>Game: Chefe vs Líder</td>
+                                <td>Uso dos Cards e Interação.</td>
+                                <td>Host</td>
+                            </tr>
+                            <tr class="bg-green-900/10">
+                                <td class="ros-time">16:30</td>
+                                <td class="font-bold text-green-400">O PITCH (Venda)</td>
+                                <td>Oferta Mentoria. Ancoragem de valor.</td>
+                                <td>Comercial</td>
+                            </tr>
+                            <tr>
+                                <td class="ros-time">18:00</td>
+                                <td>Encerramento</td>
+                                <td>Agradecimentos e Happy Hour.</td>
+                                <td>Host</td>
                             </tr>
                         </tbody>
                     </table>
@@ -320,146 +434,81 @@
         </div>
 
         <div id="staff" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-gray-700 pb-2">Palco (Front)</h3>
-                    <div class="card p-4 border-l-2 border-yellow-500">
-                        <h4 class="text-white font-bold">Ibrahim Boufleur</h4>
-                        <p class="text-xs text-yellow-500 font-bold uppercase mb-1">O Visionário</p>
-                        <p class="text-xs text-gray-400">Inacessível. Chegada VIP. Autoridade Máxima.</p>
-                    </div>
-                    <div class="card p-4">
-                        <h4 class="text-white font-bold">Host (Otaviano)</h4>
-                        <p class="text-xs text-blue-400 font-bold uppercase mb-1">Energia / Validação</p>
-                        <p class="text-xs text-gray-400">Conecta o público ao "inalcançável".</p>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="dept-card border-l-4 border-yellow-500">
+                    <span class="text-xs font-bold text-yellow-500 uppercase">Personagem Chave</span>
+                    <h4 class="text-lg font-bold text-white mt-1">Ibrahim Boufleur</h4>
+                    <p class="text-sm text-gray-400 mt-2">Visão Estratégica. Mantém a inacessibilidade.</p>
                 </div>
-
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-gray-700 pb-2">Backoffice</h3>
-                    <div class="card p-4">
-                        <h4 class="text-white font-bold">Ana (Facilities)</h4>
-                        <p class="text-xs text-gray-400">Logística, passagens e negociação local.</p>
-                    </div>
-                    <div class="card p-4">
-                        <h4 class="text-white font-bold">Bruno Lesche (MKT)</h4>
-                        <p class="text-xs text-gray-400">Estratégia digital e Tráfego Pago.</p>
-                    </div>
-                    <div class="card p-4">
-                        <h4 class="text-white font-bold">Karol (Imprensa)</h4>
-                        <p class="text-xs text-gray-400">PR e gestão de imagem (5 meses).</p>
-                    </div>
+                 <div class="dept-card border-l-4 border-blue-400">
+                    <span class="text-xs font-bold text-blue-400 uppercase">Host</span>
+                    <h4 class="text-lg font-bold text-white mt-1">Otaviano (Sugestão)</h4>
+                    <p class="text-sm text-gray-400 mt-2">Energia e Validação de autoridade.</p>
                 </div>
-
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-gray-700 pb-2">Força de Vendas</h3>
-                    <div class="card p-4 border-l-2 border-green-500">
-                        <h4 class="text-white font-bold">Equipe Live</h4>
-                        <p class="text-xs text-green-500 font-bold uppercase mb-1">João, Ana, Cléber</p>
-                        <p class="text-xs text-gray-400">"Infiltrados" no networking para qualificar leads.</p>
-                    </div>
-                    <div class="card p-4">
-                        <h4 class="text-white font-bold">Esquadrão Técnico</h4>
-                        <p class="text-xs text-gray-400">Khelven (Fin), Advogados, Contadores (Presença Física).</p>
-                    </div>
+                 <div class="dept-card border-l-4 border-purple-400">
+                    <span class="text-xs font-bold text-purple-400 uppercase">Mentor</span>
+                    <h4 class="text-lg font-bold text-white mt-1">Luiz Portal</h4>
+                    <p class="text-sm text-gray-400 mt-2">Conexão humana e Networking tático.</p>
                 </div>
-            </div>
-        </div>
-
-        <div id="checklist" class="tab-content">
-            <div class="card">
-                <table class="checklist-table w-full">
-                    <thead>
-                        <tr>
-                            <th>Área</th>
-                            <th>Item de Ação</th>
-                            <th>Responsável</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>DIREÇÃO</td>
-                            <td>Assinatura Contrato / Budget 300k</td>
-                            <td>Ibrahim/Luiz</td>
-                            <td><span class="status-badge status-done">FEITO</span></td>
-                        </tr>
-                        <tr>
-                            <td>PRODUÇÃO</td>
-                            <td>Cotação Locais (Metropolitan vs K-Hotel)</td>
-                            <td>Ana</td>
-                            <td><span class="status-badge status-wait">ANDAMENTO</span></td>
-                        </tr>
-                        <tr>
-                            <td>PRODUÇÃO</td>
-                            <td>Contratação Staff Experience</td>
-                            <td>RH</td>
-                            <td><span class="status-badge status-done">FEITO</span></td>
-                        </tr>
-                        <tr>
-                            <td>A&B</td>
-                            <td>Teste Segurança Drink Químico</td>
-                            <td>Buffet</td>
-                            <td><span class="status-badge status-wait">PENDENTE</span></td>
-                        </tr>
-                        <tr>
-                            <td>MARKETING</td>
-                            <td>Identidade Visual (Fábio)</td>
-                            <td>Sebrae</td>
-                            <td><span class="status-badge status-wait">ANDAMENTO</span></td>
-                        </tr>
-                        <tr>
-                            <td>LEGAL</td>
-                            <td>AVCB e Ambulância</td>
-                            <td>Jurídico</td>
-                            <td><span class="status-badge status-wait">A FAZER</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div id="visao" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="card border-l-4 border-accent-color">
-                    <h2 class="text-xl font-bold text-white mb-2">Conceito Central</h2>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Transformar o empresário <strong>Reagente</strong> (consumido pela operação) em <strong>Catalisador</strong> (acelera sem se queimar).
-                    </p>
+                 <div class="dept-card">
+                    <span class="text-xs font-bold text-gray-500 uppercase">Logística</span>
+                    <h4 class="text-lg font-bold text-white mt-1">Ana</h4>
+                    <p class="text-sm text-gray-400 mt-2">Facilities, Hotel, Aéreo e Locais.</p>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-black/20 p-4 rounded text-center border border-gray-700">
-                        <div class="text-xl font-bold text-green-500">R$ 300k</div>
-                        <div class="text-[10px] text-gray-400 uppercase">Budget Risco</div>
-                    </div>
-                    <div class="bg-black/20 p-4 rounded text-center border border-gray-700">
-                        <div class="text-xl font-bold text-blue-500">140 Pax</div>
-                        <div class="text-[10px] text-gray-400 uppercase">Meta Inicial</div>
-                    </div>
+                 <div class="dept-card">
+                    <span class="text-xs font-bold text-gray-500 uppercase">Marketing</span>
+                    <h4 class="text-lg font-bold text-white mt-1">Bruno Lesche</h4>
+                    <p class="text-sm text-gray-400 mt-2">Tráfego pago e estratégia digital.</p>
+                </div>
+                 <div class="dept-card">
+                    <span class="text-xs font-bold text-gray-500 uppercase">Imprensa</span>
+                    <h4 class="text-lg font-bold text-white mt-1">Karol</h4>
+                    <p class="text-sm text-gray-400 mt-2">PR e Imagem (Contrato 5 meses).</p>
+                </div>
+                 <div class="dept-card border-l-4 border-green-500">
+                    <span class="text-xs font-bold text-green-500 uppercase">Infiltrados</span>
+                    <h4 class="text-lg font-bold text-white mt-1">João, Ana, Cléber</h4>
+                    <p class="text-sm text-gray-400 mt-2">Qualificação de leads durante networking.</p>
+                </div>
+                 <div class="dept-card">
+                    <span class="text-xs font-bold text-gray-500 uppercase">Técnico</span>
+                    <h4 class="text-lg font-bold text-white mt-1">Esquadrão</h4>
+                    <p class="text-sm text-gray-400 mt-2">Khelven (Fin), Advogados, Contadores.</p>
+                </div>
+                 <div class="dept-card">
+                    <span class="text-xs font-bold text-red-500 uppercase">Crise</span>
+                    <h4 class="text-lg font-bold text-white mt-1">Sofia</h4>
+                    <p class="text-sm text-gray-400 mt-2">Monitoramento e "Limpeza de Terreno".</p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <footer class="bg-black py-6 border-t border-gray-800 mt-auto">
-        <div class="container mx-auto px-6 text-center">
-            <p class="text-xs text-gray-600">The Catalyst Project | Sistema de Inteligência Live</p>
+    <footer class="bg-black py-8 border-t border-gray-800 mt-auto">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-70">
+            <div class="flex items-center gap-3">
+                <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-34.png" class="h-6">
+                <span class="text-xs text-gray-500">AgeQuodAgis | Intelligence Systems</span>
+            </div>
+            <div class="text-xs text-gray-600 mt-2 md:mt-0">
+                Documento Confidencial de Planejamento V16
+            </div>
         </div>
     </footer>
 
     <script>
-        function openTab(tabName) {
-            const contents = document.getElementsByClassName('tab-content');
-            for(let content of contents) content.classList.remove('active');
+        function openTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const btns = document.querySelectorAll('.tab-btn');
             
-            const buttons = document.getElementsByClassName('tab-btn');
-            for(let btn of buttons) btn.classList.remove('active');
+            tabs.forEach(t => t.classList.remove('active'));
+            btns.forEach(b => b.classList.remove('active'));
             
-            document.getElementById(tabName).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
             
-            // Ativa o botão clicado (lógica simplificada)
-            const activeBtn = Array.from(buttons).find(b => b.getAttribute('onclick').includes(tabName));
+            // Highlight active button
+            const activeBtn = Array.from(btns).find(btn => btn.getAttribute('onclick').includes(tabId));
             if(activeBtn) activeBtn.classList.add('active');
         }
     </script>
