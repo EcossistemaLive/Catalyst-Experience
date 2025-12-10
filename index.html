@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Operacional | The Catalyst Project V13</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* SISTEMA DE DESIGN LIVE V3 - CSS TOKENS 
+           Fonte da verdade para cores e tipografia
+        */
+        :root {
+            /* Paleta Principal */
+            --primary-bg: #06192a;     /* Azul Petróleo - Fundo principal */
+            --card-bg: #0A243D;        /* Azul Escuro - Fundo de cards */
+            --accent-color: #00e800;   /* Verde Vibrante - Destaques */
+            
+            /* Textos */
+            --text-primary: #ffffff;
+            --text-muted: #cccccc;
+            --text-subtle: #a0a0a0;
+            
+            /* Bordas e Efeitos */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-glow: 0 0 8px rgba(0, 232, 0, 0.7);
+            
+            /* Tipografia */
+            --font-primary: 'Poppins', sans-serif;
+            --font-secondary: 'Merriweather', serif;
+            
+            /* Espaçamento */
+            --space-md: 2rem;
+        }
+
+        /* Configuração Base */
+        body {
+            background-color: var(--primary-bg);
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            background-attachment: fixed;
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Header Fixo com Blur */
+        header {
+            background: rgba(6, 25, 42, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Componente: Card Padrão V3 */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: var(--space-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 232, 0, 0.3);
+        }
+
+        /* Componente: Card Diagnóstico (Borda Esquerda) */
+        .card-diagnostic {
+            border-left: 3px solid var(--accent-color);
+        }
+
+        /* Tipografia Específica */
+        .text-highlight {
+            color: var(--accent-color);
+            text-shadow: var(--accent-glow);
+        }
+        
+        .font-serif {
+            font-family: var(--font-secondary);
+        }
+
+        /* Navegação por Abas */
+        .tab-button {
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            color: var(--text-muted);
+        }
+
+        .tab-button.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .tab-button:hover:not(.active) {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Animação Fade-In (Intersection Observer) */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Timeline Vertical V3 */
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: var(--accent-color);
+            opacity: 0.3;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -2.4rem; /* Ajuste fino para alinhar com a linha */
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        /* Badges e Tags */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .badge-outline {
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+        
+        /* Grid de Módulos */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .module-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .module-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--accent-color);
+        }
+
+        /* Utilitários de Tabela */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 1rem; color: var(--accent-color); border-bottom: 1px solid var(--border-color); }
+        td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); }
+        tr:last-child td { border-bottom: none; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <header class="fixed top-0 w-full z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-36.png" alt="Logo Live" class="h-8">
+                <div class="h-6 w-px bg-gray-700"></div>
+                <div>
+                    <h1 class="text-sm font-bold text-white tracking-widest uppercase">The Catalyst Project</h1>
+                    <span class="text-xs text-highlight font-mono">V13 // PLANNING</span>
+                </div>
+            </div>
+            <a href="https://wa.me/5561996993134" target="_blank" class="hidden md:flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors">
+                <i class="ph ph-whatsapp-logo text-lg text-[#00e800]"></i> Suporte Estratégico
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-6 pt-28 pb-12">
+        
+        <nav class="flex flex-wrap gap-6 border-b border-gray-800 mb-8 pb-1">
+            <button onclick="switchTab('visao')" class="tab-button active pb-3 text-sm font-semibold uppercase tracking-wide">Visão & Conceito</button>
+            <button onclick="switchTab('cronograma')" class="tab-button pb-3 text-sm font-semibold uppercase tracking-wide">Linha do Tempo</button>
+            <button onclick="switchTab('staff')" class="tab-button pb-3 text-sm font-semibold uppercase tracking-wide">Staff & Ops</button>
+            <button onclick="switchTab('experiencia')" class="tab-button pb-3 text-sm font-semibold uppercase tracking-wide">Experiência</button>
+            <button onclick="switchTab('financeiro')" class="tab-button pb-3 text-sm font-semibold uppercase tracking-wide">Financeiro</button>
+        </nav>
+
+        <div id="visao" class="tab-content active">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                <div class="col-span-2 card card-diagnostic">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="ph ph-flask text-3xl text-highlight"></i>
+                        <h2 class="text-2xl font-bold text-white">Reagente vs. Catalisador</h2>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed font-serif mb-6">
+                        O empresário comum é um <strong>Reagente</strong>: ele participa da reação e é consumido por ela (Burnout). Nossa missão é transformá-lo em um <strong>Catalisador</strong>: aquele que acelera o processo sem ser consumido, saindo da operação com a mesma energia com que entrou.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-black/20 p-4 rounded border border-gray-700">
+                            <h4 class="text-highlight font-bold text-sm mb-2">OBJETIVO ESTRATÉGICO</h4>
+                            <p class="text-xs text-gray-400">Não vender curso, mas um ecossistema. Posicionar Ibrahim como o "Ápice Inacessível".</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded border border-gray-700">
+                            <h4 class="text-highlight font-bold text-sm mb-2">PROVA DE EXECUÇÃO</h4>
+                            <p class="text-xs text-gray-400">Uso do "Esquadrão Técnico" da Live para garantir ROI e mitigação de risco.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-bold text-white mb-4">Dados do Projeto</h3>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex justify-between border-b border-gray-800 pb-2">
+                            <span>Status:</span> <span class="text-yellow-400">Planejamento V13</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-800 pb-2">
+                            <span>Data Prevista:</span> <span>Maio (Dia D)</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-800 pb-2">
+                            <span>Budget:</span> <span>R$ 300k (Stop Loss)</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-800 pb-2">
+                            <span>Local Alvo:</span> <span>K-Hotel (Goiania)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-highlight mb-6 mt-12">Grade Técnica: Mentoria Líder Rentável</h3>
+            <div class="module-grid">
+                <div class="module-card border-l-2 border-yellow-500">
+                    <span class="text-xs font-bold text-yellow-500 uppercase">Prólogo</span>
+                    <h4 class="font-bold text-white mt-1">Mentalidade do Dono</h4>
+                    <p class="text-xs text-gray-500 mt-2">Antifragilidade emocional.</p>
+                </div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 01</span><h4 class="font-bold text-white">Fundamentos & Sócios</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 02</span><h4 class="font-bold text-white">Produto & Valor</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 03</span><h4 class="font-bold text-white">Marketing 360º</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 04</span><h4 class="font-bold text-white">Comercial & CRM</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 05</span><h4 class="font-bold text-white">Pessoas & Cultura</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 06</span><h4 class="font-bold text-white">Finanças & DRE</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 07</span><h4 class="font-bold text-white">Tributário</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 08</span><h4 class="font-bold text-white">Operação (PMO)</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 09</span><h4 class="font-bold text-white">Tech & IA</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 10</span><h4 class="font-bold text-white">Crédito</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 11</span><h4 class="font-bold text-white">Jurídico</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 12</span><h4 class="font-bold text-white">Gestão de Crise</h4></div>
+                <div class="module-card"><span class="text-xs text-gray-500">Mód 13</span><h4 class="font-bold text-white">Setor Público</h4></div>
+                <div class="module-card border-l-2 border-blue-500"><span class="text-xs text-blue-500 font-bold">Mód 14</span><h4 class="font-bold text-white">Growth & M&A</h4></div>
+            </div>
+        </div>
+
+        <div id="cronograma" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-6">Fase 1: Pré-Evento (Jan-Fev)</h3>
+                    <div class="timeline-container">
+                        <div class="timeline-item">
+                            <span class="text-xs font-mono text-highlight mb-1 block">10 JANEIRO</span>
+                            <h4 class="text-md font-bold text-white">Fundação & Contratos</h4>
+                            <p class="text-sm text-gray-400 mt-1">Assinatura formal, Dotação de 300k e Contratação do Staff Experience.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-xs font-mono text-highlight mb-1 block">FEVEREIRO</span>
+                            <h4 class="text-md font-bold text-white">Marketing & "Jogada Ensaiada"</h4>
+                            <p class="text-sm text-gray-400 mt-1">
+                                Início do Tráfego (Bruno Lesche).<br>
+                                <span class="text-yellow-400 font-semibold">Estratégia Local:</span> Cotar Metropolitan (140 pax) para lotar rápido e migrar para K-Hotel.
+                            </p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-xs font-mono text-highlight mb-1 block">CONTINUO</span>
+                            <h4 class="text-md font-bold text-white">Reality Show</h4>
+                            <p class="text-sm text-gray-400 mt-1">Filmagens de bastidores na TecnoIT (Erros e Acertos).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-6">Fase 2 & Execução (Mar-Maio)</h3>
+                    <div class="timeline-container">
+                        <div class="timeline-item">
+                            <span class="text-xs font-mono text-highlight mb-1 block">MARÇO/ABRIL</span>
+                            <h4 class="text-md font-bold text-white">Operacional Pesado</h4>
+                            <p class="text-sm text-gray-400 mt-1">Infraestrutura de LED/Som. Teste do Welcome Drink Químico (Segurança). Briefing final com Host.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-xs font-mono text-highlight mb-1 block">DIA D (MAIO)</span>
+                            <h4 class="text-md font-bold text-white">Execução do Summit</h4>
+                            <ul class="text-sm text-gray-400 mt-1 list-disc pl-4 space-y-1">
+                                <li>08:00: Credenciamento "Separar para Conectar"</li>
+                                <li>Manhã: Prólogo (Ibrahim + Luiz)</li>
+                                <li>Tarde: Game Chefe vs. Líder</li>
+                                <li>Encerramento: Pitch Mentoria</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-xs font-mono text-highlight mb-1 block">D+1 a D+7</span>
+                            <h4 class="text-md font-bold text-white">Pós-Evento</h4>
+                            <p class="text-sm text-gray-400 mt-1">NPS, Jantar VIP (Hot Seat) e Relatório de ROI.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="staff" class="tab-content">
+            <div class="card mb-8">
+                <h2 class="text-2xl font-bold text-highlight mb-2">Estrutura Organizacional</h2>
+                <p class="text-gray-300">Organograma focado em sustentar a autoridade do Ibrahim e garantir a experiência.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card card-diagnostic">
+                    <h3 class="font-bold text-white text-lg">Ibrahim Boufleur</h3>
+                    <span class="text-xs text-highlight uppercase font-bold">O Visionário</span>
+                    <p class="text-sm text-gray-400 mt-2 font-serif italic">"Inacessibilidade Estratégica".</p>
+                    <p class="text-sm text-gray-300 mt-2">Centro da experiência. Chegada de Jato/VIP. Compartilha a visão 100k > 100mi.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="font-bold text-white text-lg">Luiz Portal</h3>
+                    <span class="text-xs text-gray-400 uppercase font-bold">Mentor & Networking</span>
+                    <p class="text-sm text-gray-300 mt-2">Ferramenta de conexão. Traduz a visão em prática comportamental.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="font-bold text-white text-lg">Otaviano Costa</h3>
+                    <span class="text-xs text-yellow-400 uppercase font-bold">Sugestão de Host</span>
+                    <p class="text-sm text-gray-300 mt-2">Energia alta. Função de validar Ibrahim para o público ("Esse cara é o ápice").</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="font-bold text-white text-lg">Staff Técnico</h3>
+                    <ul class="mt-2 space-y-2 text-sm text-gray-400">
+                        <li><strong>Ana (Logística):</strong> Facilities e passagens.</li>
+                        <li><strong>Bruno Lesche (MKT):</strong> Tráfego e digital.</li>
+                        <li><strong>Karol (Assessoria):</strong> PR e imagem (5 meses).</li>
+                        <li><strong>Sofia (Monitoramento):</strong> "Limpeza de Terreno" (Haters).</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 class="font-bold text-white text-lg">Esquadrão Técnico</h3>
+                    <p class="text-sm text-gray-300 mt-2">Khelven (Financeiro), Jurídico e Contábil. Presença física obrigatória para provar a entrega.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="font-bold text-white text-lg">A&B Químico</h3>
+                    <p class="text-sm text-gray-300 mt-2">Welcome Drink com gelo seco/fumaça. Coffee break estratégico.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="experiencia" class="tab-content">
+            <div class="card mb-8 text-center">
+                <h2 class="text-3xl font-bold text-white mb-2">A Regra de Ouro</h2>
+                <h3 class="text-xl text-highlight font-bold uppercase mb-4">"Separar para Conectar"</h3>
+                <p class="text-gray-300 max-w-2xl mx-auto">
+                    Famílias, sócios e amigos recebem crachás de cores diferentes propositalmente para forçar novas conexões e evitar "panelinhas".
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="p
